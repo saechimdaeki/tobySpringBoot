@@ -1,0 +1,14 @@
+package me.saechimdaeki.tobyspringboot
+
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.RestController
+
+@RestController
+class HelloController {
+
+    /*
+        토비님이 사용하시는 Httpie를 사용하면 http -v ":8080/hello?name=Spring" 이렇게 요청할 수 있음.
+     */
+    @GetMapping("/hello")
+    fun hello(name: String) = "Hello $name"
+}
