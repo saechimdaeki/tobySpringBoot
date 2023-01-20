@@ -10,7 +10,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 
 @WebMvcTest(HelloController::class)
 class HelloControllerTest @Autowired constructor(
-    val mockmvc: MockMvc
+    private val mockmvc: MockMvc
 ) : BehaviorSpec({
 
     Given("name이 주어진 상태에서 ") {
