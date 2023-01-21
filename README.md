@@ -51,3 +51,28 @@
 https://martinfowler.com/eaaCatalog/frontController.html
 
 서블릿을 프론트 컨트롤러로 만들려면 모든 요청, 혹은 일정 패턴을 가진 요청을 하나의 서블릿이 담당하도록 매핑해준다.
+
+---
+
+## 독립 실행형 스프링 애플리케이션
+
+### 스프링 컨테이너 사용
+
+<img width="357" alt="image" src="https://user-images.githubusercontent.com/40031858/213840623-27bb4d52-0a39-42c3-a535-13dfd289d32e.png">
+
+스프링 컨테이너는 애플리케이션 로직이 담긴 평범한 자바 오브젝트, 일명 POJO와 구성정보(Configuration Metadata)를 런타임에 조합해서 동작하는 최종 애플리케이션을 만들어낸다
+
+코드로 스프링 컨테이너를 만드는 가장 간단한 방법은 컨테이너를 대표하는 인터페이스인 ApplicationContext를 구현한 GenericApplicationContext를 이용하는 것이다.
+
+이를 통해 컨테이너에 등록할 빈 오브젝트 클래스 정보를 직접 등록할 수 있다. 이를 참고해서 컨테이너가 빈 오브젝트를 직접생성한다
+
+```kotlin
+    val applicationContext = GenericApplicationContext().also {
+        it.registerBean(HelloController::class.java, Supplier { HelloController() })
+        it.refresh()
+    }
+```
+
+컨테이너에 필요한 정보를 등록하고 refresh()를 이용해서 초기화 작업을 진행한다
+
+ApplicationContext의 getBean() 메서드를 이용해 컨테이너가 관리하는 빈 오브젝트를 가져올 수 있다. 빈의 타입(클래스, 인터페이스) 정보를 이용해 해당 타입의 빈을 요청한다

@@ -2,10 +2,11 @@ package me.saechimdaeki.tobyspringboot
 
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory
 import org.springframework.boot.web.servlet.ServletContextInitializer
-import org.springframework.http.HttpHeaders
+import org.springframework.context.support.GenericApplicationContext
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
+import java.util.function.Supplier
 import javax.servlet.http.HttpServlet
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
@@ -13,6 +14,12 @@ import javax.servlet.http.HttpServletResponse
 class HelloBootApplication
 
 fun main(args: Array<String>) {
+
+    val applicationContext = GenericApplicationContext().also {
+        it.registerBean(HelloController::class.java, Supplier { HelloController(SimpleHelloService()) })
+        it.refresh()
+    }
+
     /**
      * 빈 서블릿 컨테이너 띄우기 (임베디드 톰캣)
      */
@@ -20,7 +27,9 @@ fun main(args: Array<String>) {
         val webServer = this.getWebServer(ServletContextInitializer { servletContext ->
 
             // 이건 스프링에서 빈으로 등록안한다는 가정하에 이렇게 하는 것
-            val helloController = HelloController()
+//            val helloController = HelloController() 스프링 컨테이너 사용으로 인한 주석
+//
+
             // 서블릿 등록
             servletContext.addServlet("frontcontroller", object : HttpServlet() {
                 override fun service(req: HttpServletRequest, resp: HttpServletResponse) {
@@ -28,14 +37,13 @@ fun main(args: Array<String>) {
                     when {
                         req.requestURI == "/hello" && req.method == HttpMethod.GET.name -> {
                             val name = req.getParameter("name") ?: "SAE_CHIM_DAEKI"
-                            val returnValue = helloController.hello(name)
+                            val helloController = applicationContext.getBean(HelloController::class.java)
+
+                            val returnValue = helloController.hello(name);
 
                             resp.status = HttpStatus.OK.value()
-                            resp.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_PLAIN_VALUE)
+                            resp.contentType = MediaType.TEXT_PLAIN_VALUE
                             resp.writer.println(returnValue)
-                        }
-                        req.requestURI == "/user" -> {
-                            //
                         }
                         else -> {
                             resp.status = HttpStatus.NOT_FOUND.value()
