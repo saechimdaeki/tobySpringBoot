@@ -1,4 +1,4 @@
-package me.saechimdaeki.tobyspringboot
+package me.saechimdaeki.tobyspringboot.simple
 
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController

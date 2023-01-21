@@ -4,6 +4,8 @@ import com.ninjasquad.springmockk.MockkBean
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.every
+import me.saechimdaeki.tobyspringboot.simple.HelloController
+import me.saechimdaeki.tobyspringboot.simple.SimpleHelloService
 import org.junit.jupiter.api.Assertions.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest

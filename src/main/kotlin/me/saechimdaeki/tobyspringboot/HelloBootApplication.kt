@@ -1,16 +1,37 @@
 package me.saechimdaeki.tobyspringboot
 
+import me.saechimdaeki.tobyspringboot.simple.HelloController
+import me.saechimdaeki.tobyspringboot.simple.HelloService
+import me.saechimdaeki.tobyspringboot.simple.SimpleHelloService
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory
 import org.springframework.boot.web.servlet.ServletContextInitializer
-import org.springframework.web.context.support.GenericWebApplicationContext
+import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
+import org.springframework.web.context.support.AnnotationConfigWebApplicationContext
 import org.springframework.web.servlet.DispatcherServlet
-import java.util.function.Supplier
 
-class HelloBootApplication
+@Configuration
+class HelloBootApplication {
+
+    @Bean
+    fun helloController(helloService: HelloService): HelloController {
+        return HelloController(helloService)
+    }
+
+    @Bean
+    fun helloService(): HelloService {
+        return SimpleHelloService()
+    }
+}
 
 fun main(args: Array<String>) {
 
-    val applicationContext = object : GenericWebApplicationContext() {
+    val applicationContext = object : AnnotationConfigWebApplicationContext() {
+        @Suppress("INAPPLICABLE_JVM_NAME")
+        @JvmName(name = "이놈의 classLoadeer ")
+        override fun setClassLoader(classLoader: ClassLoader) {
+        }
+
         override fun refresh() {
             super.refresh()
             TomcatServletWebServerFactory().also {
@@ -24,10 +45,32 @@ fun main(args: Array<String>) {
             }
         }
     }.also {
-        it.registerBean(HelloController::class.java, Supplier { HelloController(SimpleHelloService()) })
-        it.registerBean(SimpleHelloService::class.java, Supplier { SimpleHelloService() })
+        it.register(HelloBootApplication::class.java)
         it.refresh()
     }
+
+
+//    val applicationContext = object : GenericWebApplicationContext() {
+//        override fun refresh() {
+//            super.refresh()
+//            TomcatServletWebServerFactory().also {
+//
+//                val webServer = it.getWebServer(ServletContextInitializer { servletContext ->
+//
+//                    servletContext.addServlet("dispatcherServlet", DispatcherServlet(this))
+//                        .addMapping("/*")
+//                })
+//                webServer.start() // 톰캣이 실행됨
+//            }
+//            println("=====")
+//            println(classLoader)
+//        }
+//
+//    }.also {
+//        it.registerBean(HelloController::class.java, Supplier { HelloController(SimpleHelloService()) })
+//        it.registerBean(SimpleHelloService::class.java, Supplier { SimpleHelloService() })
+//        it.refresh()
+//    }
 
     /**
      * 빈 서블릿 컨테이너 띄우기 (임베디드 톰캣)
@@ -75,5 +118,6 @@ fun main(args: Array<String>) {
 
 
 }
+
 
 
