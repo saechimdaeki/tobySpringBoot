@@ -4,10 +4,9 @@ import me.saechimdaeki.tobyspringboot.simple.HelloController
 import me.saechimdaeki.tobyspringboot.simple.HelloService
 import me.saechimdaeki.tobyspringboot.simple.SimpleHelloService
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory
-import org.springframework.boot.web.servlet.ServletContextInitializer
+import org.springframework.boot.web.servlet.server.ServletWebServerFactory
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.web.context.support.AnnotationConfigWebApplicationContext
 import org.springframework.web.servlet.DispatcherServlet
 
 @Configuration
@@ -22,32 +21,48 @@ class HelloBootApplication {
     fun helloService(): HelloService {
         return SimpleHelloService()
     }
+
+    @Bean
+    fun servletWebserverFactory(): ServletWebServerFactory {
+        return TomcatServletWebServerFactory()
+    }
+
+    @Bean
+    fun dispatcherServlet(): DispatcherServlet {
+        //이 디스패처 서블릿은 팩토리 메소드에서 생성자 없이 오브젝트를 리턴해도 아무 문제없이 동작함
+        return DispatcherServlet()
+    }
 }
 
 fun main(args: Array<String>) {
+    MySpringApplication.run(HelloBootApplication::class.java, *args)
+}
 
-    val applicationContext = object : AnnotationConfigWebApplicationContext() {
-        @Suppress("INAPPLICABLE_JVM_NAME")
-        @JvmName(name = "이놈의 classLoadeer ")
-        override fun setClassLoader(classLoader: ClassLoader) {
-        }
-
-        override fun refresh() {
-            super.refresh()
-            TomcatServletWebServerFactory().also {
-
-                val webServer = it.getWebServer(ServletContextInitializer { servletContext ->
-
-                    servletContext.addServlet("dispatcherServlet", DispatcherServlet(this))
-                        .addMapping("/*")
-                })
-                webServer.start() // 톰캣이 실행됨
-            }
-        }
-    }.also {
-        it.register(HelloBootApplication::class.java)
-        it.refresh()
-    }
+/**
+ * 애노테이션 매핑 정보 사용
+ */
+//    val applicationContext = object : AnnotationConfigWebApplicationContext() {
+//        @Suppress("INAPPLICABLE_JVM_NAME")
+//        @JvmName(name = "이놈의 classLoadeer ")
+//        override fun setClassLoader(classLoader: ClassLoader) {
+//        }
+//
+//        override fun refresh() {
+//            super.refresh()
+//            TomcatServletWebServerFactory().also {
+//
+//                val webServer = it.getWebServer(ServletContextInitializer { servletContext ->
+//
+//                    servletContext.addServlet("dispatcherServlet", DispatcherServlet(this))
+//                        .addMapping("/*")
+//                })
+//                webServer.start() // 톰캣이 실행됨
+//            }
+//        }
+//    }.also {
+//        it.register(HelloBootApplication::class.java)
+//        it.refresh()
+//    }
 
 
 //    val applicationContext = object : GenericWebApplicationContext() {
@@ -114,10 +129,7 @@ fun main(args: Array<String>) {
 ////        webServer.start() // 톰캣이 실행됨
 //        })
 //    }
-
-
-
-}
+//}
 
 
 
