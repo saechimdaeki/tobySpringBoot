@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class HelloController(
-    val simpleHelloService: HelloService
+    val helloService: HelloService
 ) : ApplicationContextAware {
 
     private val log = LoggerFactory.getLogger(this::class.simpleName)
@@ -21,7 +21,7 @@ class HelloController(
     fun hello(name: String?): String? {
         require(StringUtils.hasText(name))
 
-        return simpleHelloService.sayHello(name)
+        return helloService.sayHello(name)
 
     }
 

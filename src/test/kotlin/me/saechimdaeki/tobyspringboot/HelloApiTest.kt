@@ -22,7 +22,7 @@ class HelloApiTest {
         // header(content-type) text/plain
         assertThat(res.headers.getFirst(HttpHeaders.CONTENT_TYPE)).startsWith(MediaType.TEXT_PLAIN_VALUE)
         // body Hello $name
-        assertThat(res.body).isEqualTo("Hello $name")
+        assertThat(res.body).isEqualTo("* Hello $name *")
     }
 
 
