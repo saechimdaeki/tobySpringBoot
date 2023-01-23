@@ -76,3 +76,39 @@ https://martinfowler.com/eaaCatalog/frontController.html
 컨테이너에 필요한 정보를 등록하고 refresh()를 이용해서 초기화 작업을 진행한다
 
 ApplicationContext의 getBean() 메서드를 이용해 컨테이너가 관리하는 빈 오브젝트를 가져올 수 있다. 빈의 타입(클래스, 인터페이스) 정보를 이용해 해당 타입의 빈을 요청한다
+
+---
+
+## 자동 구성 기반 애플리케이션
+
+### 메타 애노테이션과 합성 애노테이션
+
+
+### `Meta-annotation`
+
+```markdown
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+@Component    // Meta Annotation
+public @interface Service {
+}
+```
+
+애노테이션에 적용한 애노테이션을 메타 애노테이션이라고 한다. 스프링은 코드에서 사용된 애노테이션의 메타 애노테이션의 효력을 적용해준다
+
+@Service 애노테이션이 부여된 클래스는 @Service의 메타 애노테이션인 @Component가 직접 사용된 것처럼 컴포넌트 스캔의 대상이 된다
+
+### `Composed-annotation`
+
+```markdown
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+@Controller    // Meta Annotation
+@ResponseBody  // Meta Annotation
+public @interface RestController {
+... }
+```
+합성 애노테이션은 하나 이상의 메타 애노테이션이 적용된 애노테이션을 말한다. 합성 애노테이션을 사용하면 모든 메타 애노테이션이 적용된 것과 동일한 효과를 갖는다.
+
