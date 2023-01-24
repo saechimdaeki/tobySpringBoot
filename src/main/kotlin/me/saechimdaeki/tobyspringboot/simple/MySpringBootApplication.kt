@@ -1,5 +1,6 @@
 package me.saechimdaeki.tobyspringboot.simple
 
+import me.saechimdaeki.config.EnableMyAutoConfiguration
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
 
@@ -7,4 +8,5 @@ import org.springframework.context.annotation.Configuration
 @Target(AnnotationTarget.CLASS)
 @Configuration
 @ComponentScan(basePackages = ["me.saechimdaeki.tobyspringboot.simple"])
-annotation class MySpringBootAnnotation()
+@EnableMyAutoConfiguration
+annotation class MySpringBootApplication()

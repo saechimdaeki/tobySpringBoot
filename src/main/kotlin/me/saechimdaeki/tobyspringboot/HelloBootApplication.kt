@@ -1,16 +1,8 @@
 package me.saechimdaeki.tobyspringboot
 
-import me.saechimdaeki.tobyspringboot.simple.HelloController
-import me.saechimdaeki.tobyspringboot.simple.HelloService
-import me.saechimdaeki.tobyspringboot.simple.MySpringBootAnnotation
-import me.saechimdaeki.tobyspringboot.simple.SimpleHelloService
-import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory
-import org.springframework.boot.web.servlet.server.ServletWebServerFactory
-import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.Configuration
-import org.springframework.web.servlet.DispatcherServlet
+import me.saechimdaeki.tobyspringboot.simple.MySpringBootApplication
 
-@MySpringBootAnnotation
+@MySpringBootApplication
 class HelloBootApplication
 
 
