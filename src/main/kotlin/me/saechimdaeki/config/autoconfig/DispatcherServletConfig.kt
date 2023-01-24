@@ -1,10 +1,10 @@
 package me.saechimdaeki.config.autoconfig
 
+import me.saechimdaeki.config.MyAutoConfiguration
 import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.Configuration
 import org.springframework.web.servlet.DispatcherServlet
 
-@Configuration
+@MyAutoConfiguration
 class DispatcherServletConfig {
 
     @Bean
