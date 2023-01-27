@@ -12,7 +12,7 @@ import org.springframework.core.type.AnnotatedTypeMetadata
 @MyAutoConfiguration
 @Conditional(TomcatWebServerConfig.TomcatCondition::class)
 class TomcatWebServerConfig {
-    @Bean("tomcatWebServerFactory2")
+    @Bean("tomcatWebServerFactory")
     fun servletWebServerFactory(): ServletWebServerFactory {
         return TomcatServletWebServerFactory()
     }
