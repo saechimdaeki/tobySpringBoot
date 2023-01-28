@@ -1,14 +1,31 @@
 package me.saechimdaeki.tobyspringboot
 
 import me.saechimdaeki.tobyspringboot.simple.MySpringBootApplication
+import org.slf4j.LoggerFactory
+import org.springframework.boot.ApplicationRunner
+import org.springframework.boot.SpringApplication
+import org.springframework.context.annotation.Bean
+import org.springframework.core.env.Environment
 
 @MySpringBootApplication
-class HelloBootApplication
+class HelloBootApplication{
+
+    val log = LoggerFactory.getLogger(this::class.simpleName)
+
+    @Bean
+    fun applicationRunner(env: Environment) : ApplicationRunner {
+        return ApplicationRunner {
+            val name = env.getProperty("my.name")
+            log.info("\n name {}" , name)
+        }
+    }
+
+}
 
 
 
 fun main(args: Array<String>) {
-    MySpringApplication.run(HelloBootApplication::class.java, *args)
+    SpringApplication.run(HelloBootApplication::class.java, *args)
 }
 
 /**

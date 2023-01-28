@@ -1,6 +1,6 @@
 
 # REQUEST
-GET localhost:8080/hello?name=Spring
+GET localhost:9090/hello?name=Spring
 
 
 # RESPONSE

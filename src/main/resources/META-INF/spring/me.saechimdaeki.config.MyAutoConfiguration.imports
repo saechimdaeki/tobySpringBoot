@@ -1,3 +1,5 @@
 me.saechimdaeki.config.autoconfig.TomcatWebServerConfig
 me.saechimdaeki.config.autoconfig.DispatcherServletConfig
 me.saechimdaeki.config.autoconfig.JettyWebServerConfig
+me.saechimdaeki.config.autoconfig.PropertyPlaceholderConfig
+me.saechimdaeki.config.autoconfig.ServerPropertiesConfig

@@ -15,7 +15,7 @@ class HelloApiTest {
     @ValueSource(strings = ["spring", "saechimdaeki", "hello World", "toby"])
     fun helloApi(name: String) {
 
-        val res = TestRestTemplate().getForEntity("http://localhost:8080/hello?name={NAME}", String::class.java, name)
+        val res = TestRestTemplate().getForEntity("http://localhost:9090/app/hello?name={NAME}", String::class.java, name)
 
         // status code 200
         assertThat(res.statusCode).isEqualTo(HttpStatus.OK)
@@ -31,7 +31,7 @@ class HelloApiTest {
     @ValueSource(strings = [" ", "         ", "  "])
     fun failshelloApi(name: String?) {
 
-        val res = TestRestTemplate().getForEntity("http://localhost:8080/hello?name={NAME}", String::class.java, name)
+        val res = TestRestTemplate().getForEntity("http://localhost:9090/app/hello?name={NAME}", String::class.java, name)
 
         // status code 500
         assertThat(res.statusCode).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR)
