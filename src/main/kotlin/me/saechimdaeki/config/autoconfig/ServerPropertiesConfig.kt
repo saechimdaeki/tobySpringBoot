@@ -8,13 +8,13 @@ import org.springframework.core.env.Environment
 @MyAutoConfiguration
 class ServerPropertiesConfig {
 
-    @Bean
-    fun serverProperties(env: Environment): ServerProperties {
-        return Binder.get(env).bind("",ServerProperties::class.java).get()
-
-//        return ServerProperties(
-//            contextPath = env.getProperty("contextPath"),
-//            port = env.getProperty("port")?.toInt() ?: 9090
-//        )
-    }
+//    @Bean
+//    fun serverProperties(env: Environment): ServerProperties {
+//        return Binder.get(env).bind("",ServerProperties::class.java).get()
+//
+////        return ServerProperties(
+////            contextPath = env.getProperty("contextPath"),
+////            port = env.getProperty("port")?.toInt() ?: 9090
+////        )
+//    }
 }
