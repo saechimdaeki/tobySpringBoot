@@ -4,3 +4,4 @@ me.saechimdaeki.config.autoconfig.JettyWebServerConfig
 me.saechimdaeki.config.autoconfig.PropertyPlaceholderConfig
 me.saechimdaeki.config.autoconfig.ServerPropertiesConfig
 me.saechimdaeki.config.autoconfig.PropertyPostProcessorConfig
+me.saechimdaeki.config.autoconfig.DataSourceConfig
