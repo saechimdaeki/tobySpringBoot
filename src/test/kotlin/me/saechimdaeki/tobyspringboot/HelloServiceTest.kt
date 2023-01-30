@@ -1,6 +1,8 @@
 package me.saechimdaeki.tobyspringboot
 
+import me.saechimdaeki.tobyspringboot.simple.Hello
 import me.saechimdaeki.tobyspringboot.simple.HelloDecorator
+import me.saechimdaeki.tobyspringboot.simple.HelloRepository
 import me.saechimdaeki.tobyspringboot.simple.SimpleHelloService
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
@@ -24,14 +26,14 @@ class HelloServiceTest {
     @UnitTest
     fun metaUnitTest(){
         val name = "spring"
-        val ret = SimpleHelloService().sayHello(name)
+        val ret = SimpleHelloService(helloRepositoryStub).sayHello(name)
         Assertions.assertThat(ret).isEqualTo("Hello $name")
     }
 
     @FastUnitTest
     fun fastUnitTest(){
         val name = "spring"
-        val ret = SimpleHelloService().sayHello(name)
+        val ret = SimpleHelloService(helloRepositoryStub).sayHello(name)
         Assertions.assertThat(ret).isEqualTo("Hello $name")
     }
 
@@ -39,18 +41,26 @@ class HelloServiceTest {
     @ParameterizedTest(name = "#{index} test value = {0}")
     @ValueSource(strings = ["spring", "saechimdaeki", "hello World", "toby"])
     fun simpleHelloService(name: String) {
-        val ret = SimpleHelloService().sayHello(name)
+        val ret = SimpleHelloService(helloRepositoryStub).sayHello(name)
         Assertions.assertThat(ret).isEqualTo("Hello $name")
     }
 
     @ParameterizedTest(name = "#{index} test value = {0}")
     @ValueSource(strings = ["spring", "saechimdaeki", "hello World", "toby"])
     fun helloDecoratorTest(name: String) {
-        val ret = HelloDecorator(SimpleHelloService()).sayHello(name)
+        val ret = HelloDecorator(SimpleHelloService(helloRepositoryStub)).sayHello(name)
 
         Assertions.assertThat(ret).isEqualTo("* Hello $name *")
 
     }
 
+    private val helloRepositoryStub = object : HelloRepository {
+        override fun findHello(name: String?): Hello? {
+            return null
+        }
+
+        override fun increaseCount(name: String?) {
+        }
+    }
 
 }

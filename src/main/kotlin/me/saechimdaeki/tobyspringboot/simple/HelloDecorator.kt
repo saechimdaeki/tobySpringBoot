@@ -10,4 +10,8 @@ class HelloDecorator(private val helloService: HelloService) : HelloService {
         return "* ${helloService.sayHello(name)} *"
     }
 
+    override fun countOf(name: String): Int {
+        return helloService.countOf(name)
+    }
+
 }

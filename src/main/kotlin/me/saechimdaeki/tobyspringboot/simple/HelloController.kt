@@ -25,6 +25,11 @@ class HelloController(
 
     }
 
+    @GetMapping("/count")
+    fun count(name:String) :String {
+        return "name Count : ${helloService.countOf(name)}"
+    }
+
     override fun setApplicationContext(applicationContext: ApplicationContext) {
         log.info("applicationContext 실행 {}", applicationContext)
     }
