@@ -1,17 +1,17 @@
 package me.saechimdaeki.tobyspringboot
 
+import jakarta.annotation.PostConstruct
+import me.saechimdaeki.tobyspringboot.simple.MySpringBootApplication
 import org.slf4j.LoggerFactory
 import org.springframework.boot.ApplicationRunner
 import org.springframework.boot.SpringApplication
-import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.autoconfigure.condition.ConditionEvaluationReport
 import org.springframework.context.annotation.Bean
 import org.springframework.core.env.Environment
 import org.springframework.jdbc.core.JdbcTemplate
-import javax.annotation.PostConstruct
 
-//@MySpringBootApplication
-@SpringBootApplication
+@MySpringBootApplication
+//@SpringBootApplication
 class HelloBootApplication(private val jdbcTemplate: JdbcTemplate) {
 
     val log = LoggerFactory.getLogger(this::class.simpleName)
