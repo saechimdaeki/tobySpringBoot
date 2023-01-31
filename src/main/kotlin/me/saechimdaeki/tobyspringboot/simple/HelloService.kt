@@ -2,5 +2,7 @@ package me.saechimdaeki.tobyspringboot.simple
 
 interface HelloService {
     fun sayHello(name: String?) : String?
-    fun countOf(name: String) : Int
+    fun countOf(name: String) : Int {
+        return 0
+    }
 }

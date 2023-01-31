@@ -1,28 +1,39 @@
 package me.saechimdaeki.tobyspringboot
 
-import me.saechimdaeki.tobyspringboot.simple.MySpringBootApplication
 import org.slf4j.LoggerFactory
 import org.springframework.boot.ApplicationRunner
 import org.springframework.boot.SpringApplication
+import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.autoconfigure.condition.ConditionEvaluationReport
 import org.springframework.context.annotation.Bean
 import org.springframework.core.env.Environment
 import org.springframework.jdbc.core.JdbcTemplate
 import javax.annotation.PostConstruct
 
-@MySpringBootApplication
-class HelloBootApplication (private val jdbcTemplate: JdbcTemplate){
+//@MySpringBootApplication
+@SpringBootApplication
+class HelloBootApplication(private val jdbcTemplate: JdbcTemplate) {
 
     val log = LoggerFactory.getLogger(this::class.simpleName)
 
     @Bean
-    fun applicationRunner(env: Environment) : ApplicationRunner {
+    fun applicationRunner(env: Environment, report: ConditionEvaluationReport): ApplicationRunner {
         return ApplicationRunner {
             val name = env.getProperty("my.name")
-            log.info("\n name {}" , name)
+            report.conditionAndOutcomesBySource.entries.stream()
+                .filter { co -> co.value.isFullMatch }
+                .filter { co -> co.key.indexOf("Jmx") < 0 }
+                .forEach { co ->
+                    run {
+                        log.info("\n co.key {}", co.key)
+                        co.value.forEach { c ->
+                            log.info("\t {}", c.outcome)
+                        }
+                    }
+                }
+            log.info("\n name {}", name)
         }
     }
-
-
     @PostConstruct
     fun init() {
         jdbcTemplate.execute("create table if not exists hello(name varchar(50) primary key, count int)")
